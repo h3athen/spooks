@@ -1,4 +1,6 @@
 use std::ptr::null_mut;
+use windows::core::PCSTR;
+use windows::Win32::System::LibraryLoader::{LoadLibraryA, GetProcAddress};
 
 pub static mut  ORIGINAL_CEF: *mut stf::ffi::c_void = null_mut();
 

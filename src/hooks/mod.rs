@@ -1,4 +1,5 @@
 use detour::GenericDetour;
+use log::log;
 use std::sync::Mutex;
 use crate::cef;
 
@@ -40,6 +41,18 @@ pub fn cleanup_hooks() {
     }
 }
 
-unsafe extern "system" fn hook_url_request_create() -> isize {
-    0
+unsafe extern "system" fn hook_url_request_create(request: *const cef::CefRequest) -> *const cef::CefString {
+    log::debug!("spook: intercepted URL request creation");
+
+    // Get the original function pointer and call it
+    unsafe  {
+        if let Some(ref hook) = URL_REQUEST_CRATE_HOOK {
+            let result = hook.call(request);
+
+        log::debug!("spook: URL request result: {:?}", result);
+        result
+        } else {
+            0
+        }
+    }
 }

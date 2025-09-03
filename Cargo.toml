@@ -8,6 +8,7 @@ name = "spooks"
 crate-type = ["cdylib"]
 
 [dependencies]
+detour = "0.8.1"
 log = "0.4.27"
 simplelog = "0.12.2"
 
@@ -15,6 +16,7 @@ simplelog = "0.12.2"
 version = "0.*"
 features = [
     "Win32_Foundation",
+    "Win32_System_LibraryLoader",
     "Win32_System_SystemServices",
     "Win32_System_Diagnostics_Debug",
 ]

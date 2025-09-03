@@ -7,6 +7,8 @@ use windows::{
 use simplelog::{self, WriteLogger, LevelFilter, Config};
 use log;
 
+mod cef;
+mod hooks;
 
 static INIT: Once = Once::new();
 
@@ -39,13 +41,19 @@ fn initialize() -> Result {
     log::info!("spooks: logging initialized at {:?}", log_path);
     log::info!("spooks: initialize() called");
 
+    cef::load_original_cef()?;
+    hook::initialize_hook()?;
+
     // Also emit to debugger (view via DebugView / OutputDebugString)
     output_debug("spooks: initialized");
+
+    log::info!("spooks: CEF hijack initialized successfully");
     Ok(())
 }
 
 fn cleanup() -> Result {
     output_debug("spooks: cleanup()");
+    hooks::cleanup_hooks();
     Ok(())
 }
 
